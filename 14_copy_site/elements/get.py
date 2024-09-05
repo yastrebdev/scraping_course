@@ -11,3 +11,25 @@ def get_tags(*, block):
         print('================================')
         print('[INFO] Не нашли блок с CLASS "tags" :(')
         return ['']
+
+
+def get_post_content(*, block):
+    try:
+        post_content = block.find('div', id='post')
+        return post_content
+    except Exception as _ex:
+        print(_ex)
+        print('================================')
+        print('[INFO] Не нашли блок с ID "post" :(')
+        return None
+
+
+def get_post_title(*, block):
+    try:
+        post_title = block.find('h1', class_='single-title').text.strip()
+        return post_title
+    except Exception as _ex:
+        print(_ex)
+        print('================================')
+        print('[INFO] Не нашли блок с CLASS "single-title" :(')
+        return 'Untitled'

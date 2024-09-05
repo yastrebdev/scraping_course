@@ -1,11 +1,10 @@
 import json
 import re
 import time
-
 import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
-from elements.get import get_tags
+from elements.get import get_tags, get_post_content
 
 ua = UserAgent().random
 
@@ -22,31 +21,18 @@ def get_data(file_path):
     session = requests.Session()
 
     posts_list = []
-    for url in urls_list[:100]:
+    for url in urls_list[:10]:
         other_urls_list = []
 
         response = session.get(url=url, headers=headers)
         soup = BeautifulSoup(response.text, 'lxml')
 
-        post_content = None
-        post_info = None
-
-        try:
-            post_content = soup.find('div', id='post')
-        except Exception as _ex:
-            print(_ex)
-            print('================================')
-            print('[INFO] Не нашли блок с ID "post" :(')
+        post_content = get_post_content(block=soup)
 
         if post_content:
-            try:
-                post_title = post_content.find('h1', class_='single-title').text.strip()
-            except Exception as _ex:
-                print(_ex)
-                print('================================')
-                print('[INFO] Не нашли блок с CLASS "single-title" :(')
-                post_title = 'Untitled'
+            post_title = get_post_title(block=post_content)
 
+            post_info = None
             try:
                 post_info = post_content.find('div', class_='info')
             except Exception as _ex:
