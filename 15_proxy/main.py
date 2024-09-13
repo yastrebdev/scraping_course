@@ -2,8 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
-login = 'fpuGzG'
-password = 'c94DBj'
+login = 'ztxpzN'
+password = '1500TL'
 
 ua = UserAgent().random
 
@@ -12,17 +12,18 @@ headers = {
 }
 
 proxies = {
-    'http': f'http://{login}:{password}@217.29.63.93:12559'
+    'http': f'http://{login}:{password}@191.102.147.25:8000'
 }
 
 def get_location(*, url):
     response = requests.get(url=url, headers=headers, proxies=proxies)
     soup = BeautifulSoup(response.text, 'lxml')
 
-    # ip = soup.find('div', class_='ip').text.strip()
-    # location = soup.find('div', class_='value-country').text.strip()
+    ip = soup.find('div', class_='ip').text.strip()
+    location = soup.find('div', class_='value-country').text.strip()
 
-    print(soup)
+    print(ip)
+    print(location)
 
 def main():
     get_location(url='http://2ip.ru')
